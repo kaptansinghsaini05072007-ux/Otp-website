@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Service - Buy Virtual Numbers</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            padding: 20px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .balance-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        
+        .balance-amount {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #4CAF50;
+            margin: 10px 0;
+        }
+        
+        .selection-panel {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .form-select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: white;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .buy-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .buy-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+        
+        .buy-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .order-status {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .number-display {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+        }
+        
+        .sms-inbox {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            min-height: 120px;
+            border: 2px solid #e9ecef;
+            font-family: monospace;
+        }
+        
+        .loading {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+        }
+        
+        .success {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        
+        .error {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        
+        .price-display {
+            text-align: center;
+            font-size: 1.2rem;
+            margin: 15px 0;
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        
+        .service-info {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📱 OTP Service</h1>
+            <p>Buy Virtual Numbers for SMS Verification - 200+ Countries & Services</p>
+        </div>
+        
+        <div class="balance-card">
+            <h3>Your Balance</h3>
+            <div class="balance-amount">₹<span id="userBalance">50.00</span></div>
+            <p>Test Balance - Real OTP Service</p>
+        </div>
+        
+        <div class="selection-panel">
+            <div class="form-group">
+                <label for="countrySelect">Select Country:</label>
+                <select id="countrySelect" class="form-select">
+                    <option value="">Loading countries...</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="serviceSelect">Select Service:</label>
+                <select id="serviceSelect" class="form-select">
+                    <option value="">Select country first</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="operatorSelect">Select Operator (Optional):</label>
+                <select id="operatorSelect" class="form-select">
+                    <option value="any">Any Operator</option>
+                </select>
+            </div>
+            
+            <div id="priceInfo" class="price-display hidden">
+                Estimated Price: ₹<span id="estimatedPrice">0</span>
+            </div>
+            
+            <button id="buyButton" class="buy-btn" onclick="buyNumber()" disabled>
+                Buy Number
+            </button>
+        </div>
+        
+        <div class="order-status hidden" id="orderStatus">
+            <h3>Current Order</h3>
+            <div class="number-display" id="currentNumber"></div>
+            <div class="service-info">
+                <span id="orderService"></span>
+                <span id="orderCountry"></span>
+            </div>
+            
+            <div class="sms-inbox" id="smsInbox">
+                <div class="loading">Waiting for SMS... (Checking every 5 seconds)</div>
+            </div>
+            
+            <button class="buy-btn" onclick="closeOrder()" style="background: #e74c3c; margin-top: 15px;">
+                Close Order
+            </button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
